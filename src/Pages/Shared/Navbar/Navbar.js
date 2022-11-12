@@ -1,18 +1,18 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 const Navbar = () => {
 
     const menuItems = <>
-        <li><NavLink to='/'>Home</NavLink></li>
-        <li><NavLink to='/appoinment'>Appoinment</NavLink></li>
-        <li><NavLink to='/about'>About</NavLink></li>
-        <li><NavLink to='/reviews'>Reviews</NavLink></li>
-        <li><NavLink to='/login'>Login</NavLink></li>
+        <li><NavLink className='rounded-xl' to='/'>Home</NavLink></li>
+        <li><NavLink className='rounded-xl' to='/appoinment'>Appoinment</NavLink></li>
+        <li><NavLink className='rounded-xl' to='/about'>About</NavLink></li>
+        <li><NavLink className='rounded-xl' to='/reviews'>Reviews</NavLink></li>
+        <li><NavLink className='rounded-xl' to='/login'>Login</NavLink></li>
     </>
 
     return (
-        <div className="navbar bg-base-100 lg:justify-around">
+        <div className="navbar bg-base-100 justify-between">
             <div className="navbar-start">
                 <div className="dropdown">
                     <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -22,7 +22,7 @@ const Navbar = () => {
                         {menuItems}
                     </ul>
                 </div>
-                <a className="btn btn-ghost normal-case text-xl">Doctors Portal</a>
+                <Link className="btn btn-ghost normal-case text-xl">Doctors Portal</Link>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal p-0">
