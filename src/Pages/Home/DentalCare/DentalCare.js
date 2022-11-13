@@ -4,7 +4,7 @@ import PrimaryButton from '../../../components/PrimaryButton';
 
 const DentalCare = () => {
     return (
-        <div className="hero mt-16">
+        <div className="hero mt-32">
             <div className="hero-content justify-around flex-col lg:flex-row">
                 <img src={treatment} className="lg:w-4/12 rounded-lg shadow-2xl" alt='' />
                 <div className='lg:w-5/12'>

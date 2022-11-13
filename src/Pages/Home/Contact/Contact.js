@@ -5,7 +5,7 @@ import './Contact.css';
 const Contact = () => {
     return (
         <div className='mt-32 contact-section'>
-            <div className='py-4'>
+            <div className='py-8'>
                 <h2 className='text-center text-xl font-bold text-primary'>Contact Us</h2>
                 <h2 className='text-center text-3xl text-white'>Stay connected with us</h2>
             </div>
