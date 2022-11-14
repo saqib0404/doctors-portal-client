@@ -1,6 +1,6 @@
-/* .banner{
-    background-image: url('../../../assets/images/chair.png');
+.banner{
+    background-image: url('../../../assets/images/bg.png');
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: 100% 100%;
     background-position: center;
-} */
+}
