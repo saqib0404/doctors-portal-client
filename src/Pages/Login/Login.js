@@ -1,10 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider';
 
 const Login = () => {
-    const { loginUser, googleLogin } = useContext(AuthContext);
+    const { loginUser, googleLogin, resetPassword } = useContext(AuthContext);
     const [err, setErr] = useState('');
     const { register, formState: { errors }, handleSubmit } = useForm();
     const navigate = useNavigate();
@@ -26,6 +27,20 @@ const Login = () => {
             })
     }
 
+    // Handle reset password
+    const handleResetPassword = e => {
+        const email = e.target.parentNode.parentNode.parentNode.children[1].value;
+
+       if(email){
+        resetPassword(email).then(() => { }).catch(e => console.log(e))
+        toast('Please Check your email to reset password');
+       }
+       else{
+        alert("Please Provide a Valid Email")
+       }
+    }
+
+    // Google Login
     const handleGoogleLogin = () => {
         googleLogin()
             .then(res => {
@@ -64,7 +79,7 @@ const Login = () => {
                             )}
                             className="input input-bordered w-full" />
                         <label className="label">
-                            <span className="label-text-alt">Forgot Password?</span>
+                            <Link onClick={handleResetPassword}><span className="label-text-alt">Forgot Password?</span></Link>
                         </label>
                         {errors.password && <p className='text-red-600 text-sm'>{errors.password?.message}</p>}
                         {err && <p className='text-sm text-red-600'>{err}</p>}

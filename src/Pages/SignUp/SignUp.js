@@ -78,9 +78,6 @@ const SignUp = () => {
                                 }
                             )}
                             className="input input-bordered w-full" />
-                        <label className="label">
-                            <span className="label-text-alt">Forgot Password?</span>
-                        </label>
                         {errors.password && <p role="alert" className='text-red-600 text-sm'>{errors.password?.message}</p>}
                         {err && <p className='text-sm text-red-600'>{err}</p>}
                     </div>

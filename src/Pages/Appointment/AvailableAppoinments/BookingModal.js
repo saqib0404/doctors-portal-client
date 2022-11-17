@@ -1,29 +1,57 @@
 import { format } from 'date-fns';
-import React from 'react';
+import React, { useContext } from 'react';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../../contexts/AuthProvider';
 
-const BookingModal = ({ treatment, selectedDate, setTreatment }) => {
+const BookingModal = ({ treatment, selectedDate, setTreatment, refetch }) => {
+    const { user } = useContext(AuthContext);
     const { name, slots } = treatment;
-    const date = format(selectedDate, 'PP')
+    const date = format(selectedDate, 'PP');
+    const navigate = useNavigate();
 
     const handleBooking = e => {
-        e.preventDefault();
-        const form = e.target;
-        const name = form.name.value;
-        const email = form.email.value;
-        const phone = form.phone.value;
-        const slot = form.slot.value;
+        if (!user.uid) {
+            e.preventDefault();
+            // return navigate('/login')
+            return toast("Please login before placingan appointment")
+        } else {
+            e.preventDefault();
+            const form = e.target;
+            const name = form.name.value;
+            const email = form.email.value;
+            const phone = form.phone.value;
+            const slot = form.slot.value;
 
-        const booking = {
-            appointmentDate: date,
-            treatment: treatment.name,
-            Patient: name,
-            email,
-            phone,
-            slot,
+            const booking = {
+                appointmentDate: date,
+                treatment: treatment.name,
+                Patient: name,
+                email,
+                phone,
+                slot,
+            }
+
+            fetch('http://localhost:5000/bookings', {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify(booking)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.acknowledged) {
+                        setTreatment(null)
+                        toast.success('Booking Confirmed');
+                        refetch();
+                    } else {
+                        toast.error(data.message);
+                    }
+                })
         }
 
-        console.log(booking);
-        setTreatment(null)
+
     }
 
     return (
@@ -40,9 +68,9 @@ const BookingModal = ({ treatment, selectedDate, setTreatment }) => {
                                 slots.map((slot, idx) => <option key={idx} value={slot}>{slot}</option>)
                             }
                         </select>
-                        <input name='name' type="text" placeholder="Full Name" className="input input-bordered w-full my-2" required />
-                        <input name='phone' type="text" placeholder="Phone Number" className="input input-bordered w-full my-2" required />
-                        <input name='email' type="email" placeholder="Email" className="input input-bordered w-full my-2" required />
+                        <input name='name' type="text" value={user?.displayName} disabled className="input input-bordered w-full my-2" required />
+                        <input name='email' type="email" value={user?.email} disabled className="input input-bordered w-full my-2" required />
+                        <input name='phone' type="text" placeholder="Phone Number" className="input input-bordered w-full my-2" />
                         <input type="submit" value="Submit" className='btn btn-accent w-full mt-4' />
                     </form>
 
