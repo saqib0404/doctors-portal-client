@@ -3,14 +3,21 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider';
+import { useToken } from '../../Hooks/useToken';
 
 const Login = () => {
     const { loginUser, googleLogin, resetPassword } = useContext(AuthContext);
     const [err, setErr] = useState('');
     const { register, formState: { errors }, handleSubmit } = useForm();
+    const [loginUserEmail, setLoginUserEmail] = useState('');
+    const [token] = useToken(loginUserEmail);
     const navigate = useNavigate();
     const location = useLocation();
-    const from = location.state?.from?.pathname || '/'
+    const from = location.state?.from?.pathname || '/';
+
+    if (token) {
+        navigate(from, { replace: true });
+    }
 
     const handleLogin = data => {
         const { email, password } = data;
@@ -19,7 +26,7 @@ const Login = () => {
         loginUser(email, password)
             .then(res => {
                 console.log(res.user);
-                navigate(from, { replace: true });
+                setLoginUserEmail(email)
             })
             .catch(e => {
                 console.log(e);
@@ -31,13 +38,13 @@ const Login = () => {
     const handleResetPassword = e => {
         const email = e.target.parentNode.parentNode.parentNode.children[1].value;
 
-       if(email){
-        resetPassword(email).then(() => { }).catch(e => console.log(e))
-        toast('Please Check your email to reset password');
-       }
-       else{
-        alert("Please Provide a Valid Email")
-       }
+        if (email) {
+            resetPassword(email).then(() => { }).catch(e => console.log(e))
+            toast('Please Check your email to reset password');
+        }
+        else {
+            alert("Please Provide a Valid Email")
+        }
     }
 
     // Google Login
