@@ -1,10 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { useContext } from 'react';
 import { AuthContext } from '../../../../contexts/AuthProvider';
+import Loader from '../../../Shared/Loader/Loader';
 
 const MyAppointment = () => {
     const { user } = useContext(AuthContext);
-    const { data: bookings = [] } = useQuery({
+    const { data: bookings = [], isLoading } = useQuery({
         queryKey: ['bookings'],
         queryFn: async () => {
             const res = await fetch(`http://localhost:5000/bookings?email=${user?.email}`, {
@@ -32,7 +33,7 @@ const MyAppointment = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {
+                        {bookings.length < 1 ? <Loader></Loader> :
                             bookings.map((booking, idx) => <tr key={idx}>
                                 <th>{idx + 1}</th>
                                 <td>{booking.Patient}</td>

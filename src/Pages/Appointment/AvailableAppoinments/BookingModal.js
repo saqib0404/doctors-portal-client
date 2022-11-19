@@ -11,45 +11,45 @@ const BookingModal = ({ treatment, selectedDate, setTreatment, refetch }) => {
     const navigate = useNavigate();
 
     const handleBooking = e => {
-        if (!user.uid) {
-            e.preventDefault();
-            // return navigate('/login')
-            return toast("Please login before placingan appointment")
-        } else {
-            e.preventDefault();
-            const form = e.target;
-            const name = form.name.value;
-            const email = form.email.value;
-            const phone = form.phone.value;
-            const slot = form.slot.value;
-
-            const booking = {
-                appointmentDate: date,
-                treatment: treatment.name,
-                Patient: name,
-                email,
-                phone,
-                slot,
-            }
-
-            fetch('http://localhost:5000/bookings', {
-                method: "POST",
-                headers: {
-                    "content-type": "application/json"
-                },
-                body: JSON.stringify(booking)
-            })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.acknowledged) {
-                        setTreatment(null)
-                        toast.success('Booking Confirmed');
-                        refetch();
-                    } else {
-                        toast.error(data.message);
-                    }
-                })
+        e.preventDefault();
+        if (!user?.uid) {
+            toast("Please login before placing appointment")
+            return navigate('/login')
         }
+        e.preventDefault();
+        const form = e.target;
+        const name = form.name.value;
+        const email = form.email.value;
+        const phone = form.phone.value;
+        const slot = form.slot.value;
+
+        const booking = {
+            appointmentDate: date,
+            treatment: treatment.name,
+            Patient: name,
+            email,
+            phone,
+            slot,
+        }
+
+        fetch('http://localhost:5000/bookings', {
+            method: "POST",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(booking)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.acknowledged) {
+                    setTreatment(null)
+                    toast.success('Booking Confirmed');
+                    refetch();
+                } else {
+                    toast.error(data.message);
+                }
+            })
+
 
 
     }
