@@ -6,7 +6,7 @@ import { AuthContext } from '../../../contexts/AuthProvider';
 
 const BookingModal = ({ treatment, selectedDate, setTreatment, refetch }) => {
     const { user } = useContext(AuthContext);
-    const { name, slots } = treatment;
+    const { name, slots, price } = treatment;
     const date = format(selectedDate, 'PP');
     const navigate = useNavigate();
 
@@ -30,6 +30,7 @@ const BookingModal = ({ treatment, selectedDate, setTreatment, refetch }) => {
             email,
             phone,
             slot,
+            price
         }
 
         fetch('http://localhost:5000/bookings', {
@@ -49,9 +50,6 @@ const BookingModal = ({ treatment, selectedDate, setTreatment, refetch }) => {
                     toast.error(data.message);
                 }
             })
-
-
-
     }
 
     return (
@@ -70,6 +68,7 @@ const BookingModal = ({ treatment, selectedDate, setTreatment, refetch }) => {
                         </select>
                         <input name='name' type="text" value={user?.displayName} disabled className="input input-bordered w-full my-2" required />
                         <input name='email' type="email" value={user?.email} disabled className="input input-bordered w-full my-2" required />
+                        <input name='price' type="text" value={`Price: ${price}`} disabled className="input input-bordered w-full my-2" required />
                         <input name='phone' type="text" placeholder="Phone Number" className="input input-bordered w-full my-2" />
                         <input type="submit" value="Submit" className='btn btn-accent w-full mt-4' />
                     </form>
