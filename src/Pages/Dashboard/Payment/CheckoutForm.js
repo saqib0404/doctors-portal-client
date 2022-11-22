@@ -12,7 +12,7 @@ const CheckoutForm = ({ booking }) => {
     const elements = useElements();
 
     useEffect(() => {
-        fetch("http://localhost:5000/create-payment-intent", {
+        fetch("https://doctors-portal-server-eight-lilac.vercel.app/create-payment-intent", {
             method: "POST",
             headers: {
                 "content-type": "application/json",
@@ -77,7 +77,7 @@ const CheckoutForm = ({ booking }) => {
                 transitionId: paymentIntent?.id,
                 bookingId: _id
             }
-            fetch('http://localhost:5000/payments', {
+            fetch('https://doctors-portal-server-eight-lilac.vercel.app/payments', {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",

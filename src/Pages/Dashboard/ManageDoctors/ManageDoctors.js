@@ -9,7 +9,7 @@ const ManageDoctors = () => {
     const { data: doctors = [], refetch } = useQuery({
         queryKey: ['doctors'],
         queryFn: async () => {
-            const res = await fetch('http://localhost:5000/doctors', {
+            const res = await fetch('https://doctors-portal-server-eight-lilac.vercel.app/doctors', {
                 headers: {
                     authorization: `bearer ${localStorage.getItem('accessToken')}`
                 }
@@ -20,7 +20,7 @@ const ManageDoctors = () => {
     })
 
     const handleDeletingDoctor = doctor => {
-        fetch(`http://localhost:5000/doctors/${doctor._id}`, {
+        fetch(`https://doctors-portal-server-eight-lilac.vercel.app/doctors/${doctor._id}`, {
             method: "DELETE",
             headers: {
                 authorization: `bearer ${localStorage.getItem('accessToken')}`
